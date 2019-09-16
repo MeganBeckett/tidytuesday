@@ -7,7 +7,7 @@
 library(tidyverse)
 
 # Install "scales" package if required - scale functions for visualisation
-if(!require(scales)){
+if (!require(scales)) {
   install.packages("scales")
 }
 library(scales)
@@ -79,10 +79,9 @@ g <- g +
         plot.background = element_rect(fill = "#F0F0F0"))
 g
 
-
 # 3. Using plotly -----------------------------------------------------------------------------
 # Install "plotly" package if required - interactive, web-based graphs
-if(!require(plotly)){
+if (!require(plotly)) {
   install.packages("plotly")
 }
 library(plotly)
@@ -107,7 +106,7 @@ p
 # "The most popular national parks over the past 20 years" -----------------------------------
 # There are several great packages for visualising tabular data. My favorite is {DT}.
 # Here I've explored {formattable} - a package I recently found out about
-if(!require(formattable)){
+if (!require(formattable)) {
   install.packages("formattable")
 }
 library(formattable)
@@ -130,7 +129,7 @@ formattable(data_popular,
 # NEXT STEPS ----------------------------------------------------------------------------------
 
 # Try replicate another one of the visualizations.
-# Ask yourself a question and then design and implement a visualization to answer the it, such as:
+# Ask yourself a question and then design and implement a visualization to answer it, such as:
 #   - How has the number of National Parks changed over the years?
 #   - What is the trend in park visits for the last 10 years for the top 20 parks as of 2016?
 #   - How does the ranking of most popular national parks per year change over time?
