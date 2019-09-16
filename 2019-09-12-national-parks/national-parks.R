@@ -47,9 +47,9 @@ str(data_year)
 # Let's recreate some of the visualisations in the article:
 # https://fivethirtyeight.com/features/the-national-parks-have-never-been-more-popular/
 
-# "Annual recreational visits to national parks since 1904"
-# Using ALL parks that reported visitation across all years
+# "Annual recreational visits to national parks since 1904" ----------------------------------
 data_summary <- data_year %>%
+  filter(unit_type == "National Park") %>%
   group_by(year) %>%
   summarise(total_visitors_mil = sum(visitors)/10^6)
 
@@ -66,7 +66,7 @@ g
 g <- g +
   geom_area(stat = "identity", fill = "#396D39", alpha = 0.4) +
   scale_x_continuous(breaks = seq(1910, 2010, 10)) +
-  scale_y_continuous(breaks = seq(0, 300, 60),
+  scale_y_continuous(breaks = seq(0, 80, 20),
                      labels = scales::unit_format(unit = "M")) +
   labs(title = "U.S. national parks have never been so popular",
        subtitle = "Annual recreational visits to national parks since 1904",
@@ -103,3 +103,34 @@ p <- plot_ly(data_summary,
          yaxis = list(title = "Millions of visitors"))
 
 p
+
+# "The most popular national parks over the past 20 years" -----------------------------------
+# There are several great packages for visualising tabular data. My favorite is {DT}.
+# Here I've explored {formattable} - a package I recently found out about
+if(!require(formattable)){
+  install.packages("formattable")
+}
+library(formattable)
+
+data_popular <- data_year %>%
+  filter(unit_type == "National Park") %>%
+  filter(year > 1996) %>%
+  group_by(unit_name, state) %>%
+  summarise(`Total visitors` = sum(visitors),
+            `Average annual visitors` = round(mean(visitors))) %>%
+  dplyr::rename(Park = unit_name,
+                Location = state) %>%
+  arrange(desc(`Average annual visitors`))
+
+formattable(data_popular,
+            align = c("l", "l", "l", "r"),
+            list(`Average annual visitors` = color_bar(color = "#f2a080")))
+
+
+# NEXT STEPS ----------------------------------------------------------------------------------
+
+# Try replicate another one of the visualizations.
+# Ask yourself a question and then design and implement a visualization to answer the it, such as:
+#   - How has the number of National Parks changed over the years?
+#   - What is the trend in park visits for the last 10 years for the top 20 parks as of 2016?
+#   - How does the ranking of most popular national parks per year change over time?
